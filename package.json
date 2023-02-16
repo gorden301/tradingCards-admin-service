@@ -1,0 +1,23 @@
+{
+  "name": "tradingcards-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gorden301/tradingCards-service.git"
+  },
+  "author": "陈佳伟",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gorden301/tradingCards-service/issues"
+  },
+  "homepage": "https://github.com/gorden301/tradingCards-service#readme",
+  "dependencies": {
+    "axios": "^1.3.3",
+    "koa": "^2.14.1"
+  }
+}
