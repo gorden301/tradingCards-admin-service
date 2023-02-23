@@ -6,7 +6,7 @@ const cors = require('koa2-cors')
 const ENV = 'env-1gy0ivir5e756d6a'
 
 app.use(cors({
-    origin: ['http://101.43.19.137'],
+    origin: '*',
     credentials: true
 }))
 
