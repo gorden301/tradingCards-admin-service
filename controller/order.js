@@ -13,7 +13,7 @@ router.get('/orderList', async (ctx, next) => {
     const res = await callCloudDB(ctx, 'databasecount', orderListCountQuery)
     const pageDataQuery = `db.collection('orderList').orderBy('createTime', 'desc').skip(10).limit(10).get()`
     const pageRes = await callCloudDB(ctx, 'databasequery', pageDataQuery)
-    console.log('pageRes', pageRes)
+    // console.log('pageRes', pageRes)
     // console.log(getListRes)
     ctx.body = {
         code: 0,
@@ -31,7 +31,7 @@ router.post('/newOrderList', async (ctx, next) => {
     const dataArr = pageRes?.data.map((item) => {
         return JSON.parse(item)
     })
-    console.log('pageRes', pageRes)
+    // console.log('pageRes', pageRes)
     // console.log(getListRes)
     ctx.body = {
         code: 0,
@@ -55,7 +55,7 @@ router.post('/updateOrder', async (ctx, next) => {
         })
     `
     const res = await callCloudDB(ctx, 'databaseupdate', query)
-    console.log('调用calldb', res)
+    // console.log('调用calldb', res)
     ctx.body = {
         code: 0,
         data: res
