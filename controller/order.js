@@ -50,7 +50,8 @@ router.post('/updateOrder', async (ctx, next) => {
         db.collection('orderList').doc('${params._id}').update({
             data: {
                 orderStatus: '${params.orderStatus}',
-                customerComment: '${params.customerComment}'
+                customerComment: '${params.customerComment}',
+                sellNumber: '${params.sellNumber}'
             }
         })
     `
