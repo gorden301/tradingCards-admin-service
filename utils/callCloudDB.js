@@ -8,7 +8,7 @@ const callCloudDB = async (ctx, fnName, query = {}) => {
         query,
         env: ctx.state.env
     })
-    console.log('数据库更新', res.data)
+    // console.log('数据库更新', res.data)
     return res.data
 }
 

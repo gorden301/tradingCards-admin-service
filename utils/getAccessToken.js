@@ -8,7 +8,7 @@ const fileName = path.resolve(__dirname, "./access_token.json");
 
 const updateAccessToken = async () => {
     const { data } = await axios.get(URL);
-    console.log(data);
+    // console.log(data);
     // 拿到token写入json文件
     let current_datetime = new Date();
     let formatted_date =

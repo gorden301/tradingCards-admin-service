@@ -23,14 +23,19 @@ router.get('/orderList', async (ctx, next) => {
 })
 
 router.post('/newOrderList', async (ctx, next) => {
-    const params = ctx.request.body
-    const orderListCountQuery = `db.collection('orderList').count()`
+    const params = ctx.request.body || {}
+    const dataParam = JSON.parse(JSON.stringify(params))
+    delete dataParam.page
+    const orderListCountQuery = `db.collection('orderList').where(${JSON.stringify(dataParam)}).count()`
+    // const testQuery = `db.collection('orderList').where(${JSON.stringify(aaa)}).count()`
+    // const testres = await callCloudDB(ctx, 'databasecount', testQuery)
+    // console.log('testres', testres)
     const res = await callCloudDB(ctx, 'databasecount', orderListCountQuery)
-    const pageDataQuery = `db.collection('orderList').orderBy('createTime', 'desc').skip(${(params.page - 1) * 10}).limit(10).get()`
+    const pageDataQuery = `db.collection('orderList').orderBy('createTime', 'desc').where(${JSON.stringify(dataParam)}).skip(${(params.page - 1) * 10}).limit(10).get()`
     const pageRes = await callCloudDB(ctx, 'databasequery', pageDataQuery)
-    const dataArr = pageRes?.data.map((item) => {
+    const dataArr = pageRes?.data?.map((item) => {
         return JSON.parse(item)
-    })
+    }) || []
     // console.log('pageRes', pageRes)
     // console.log(getListRes)
     ctx.body = {
