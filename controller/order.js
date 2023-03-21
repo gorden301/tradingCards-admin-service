@@ -3,6 +3,7 @@ const axios = require('axios')
 const getAccessToken = require('../utils/getAccessToken')
 const callCloudFn = require('../utils/callCloudFn')
 const callCloudDB = require('../utils/callCloudDB')
+const cloudStorage = require('../utils/callCloudStorage')
 const router = new Router()
 const ENV = 'env-1gy0ivir5e756d6a'
 router.get('/orderList', async (ctx, next) => {
@@ -50,6 +51,9 @@ router.post('/newOrderList', async (ctx, next) => {
 
 router.post('/updateOrder', async (ctx, next) => {
     const params = ctx.request.body
+    // if (params.fileList) {
+
+    // }
     console.log(params)
     const query = `
         db.collection('orderList').doc('${params._id}').update({
@@ -65,6 +69,49 @@ router.post('/updateOrder', async (ctx, next) => {
     ctx.body = {
         code: 0,
         data: res
+    }
+})
+
+router.post('/uploadImg', async(ctx, next)=>{
+    const fileid =  await cloudStorage.upload(ctx)
+    console.log('fileid', fileid)
+    const dlRes = await cloudStorage.download(ctx, [{
+        max_age: 7200,
+        fileid
+    }])
+    console.log('dlRes', dlRes)
+    ctx.body = {
+        code: 0,
+        data: {
+            fileid,
+            download_url: dlRes?.data?.file_list[0]?.download_url
+        }
+    }
+    // 写数据库
+    //  const query = `
+    //      db.collection('swiper').add({
+    //          data: {
+    //              fileid: '${fileid}'
+    //          }
+    //      })
+    //  `
+    // const res = await callCloudDB(ctx, 'databaseadd', query)
+    // ctx.body = {
+    //     code: 20000,
+    //     id_list: res.id_list
+    // }
+ })
+
+ router.post('/deleteStorageFile', async (ctx, next)=>{
+    const params = ctx.request.body
+    console.log('params', params)
+    // 删除云存储中的文件
+    const delStorageRes = await cloudStorage.delete(ctx, params.fileids)
+    ctx.body = {
+        code: 0,
+        data: {
+            delStorageRes: delStorageRes.delete_list
+        }
     }
 })
 
