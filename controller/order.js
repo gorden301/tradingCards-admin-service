@@ -60,6 +60,7 @@ router.post('/updateOrder', async (ctx, next) => {
             data: {
                 orderStatus: '${params.orderStatus}',
                 customerComment: '${params.customerComment}',
+                singleDetailList: '${JSON.stringify(params.singleDetailList)}',
                 sellNumber: '${params.sellNumber}'
             }
         })
