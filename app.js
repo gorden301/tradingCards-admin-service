@@ -21,7 +21,9 @@ app.use(async (ctx, next) => {
 })
 
 const order = require('./controller/order.js')
+const user = require('./controller/users.js')
 router.use('/order', order.routes())
+router.use('/user', user.routes())
 
 app.use(router.routes())
 app.use(router.allowedMethods())
