@@ -36,20 +36,24 @@ router.post('/createOrder', async (ctx, next) => {
             openid: params.openid
         }
     })
-    // const query = `
-    //     db.collection('orderList').add({
-    //         data: {
-    //             orderType: '1',
-    //             cardImgs: '${JSON.stringify(params.fileIds)}',
-    //             comment: '${params.comment}',
-    //             fileList: ${JSON.stringify(params.fileList)}',
-    //             singleDetailList: '${JSON.stringify(params.singleDetailList)}',
-    //             sellNumber: '${params.sellNumber}',
-    //             openid: '${params.openid}'
-    //         }
-    //     })
-    // `
-    // const res = await callCloudDB(ctx, 'databaseadd', query)
+    const query = `
+        db.collection('orderList').add({
+            data: {
+                orderType: '1',
+                cardImgs: '${JSON.stringify(params.fileIds)}',
+                comment: '${params.comment}',
+                fileList: ${JSON.stringify(params.fileList)}',
+                singleDetailList: '${JSON.stringify(params.singleDetailList)}',
+                sellNumber: '${params.sellNumber}',
+                openid: '${params.openid}'
+                sellNumber: '${params.sellNumber}',
+                openid: '${params.openid}'
+                sellNumber: '${params.sellNumber}',
+                openid: '${params.openid}'
+            }
+        })
+    `
+    const res = await callCloudDB(ctx, 'databaseadd', query)
     // console.log('pageRes', pageRes)
     console.log('getListRes', getListRes)
     ctx.body = {
@@ -94,7 +98,8 @@ router.post('/updateOrder', async (ctx, next) => {
                 orderStatus: '${params.orderStatus}',
                 customerComment: '${params.customerComment}',
                 singleDetailList: '${JSON.stringify(params.singleDetailList)}',
-                sellNumber: '${params.sellNumber}'
+                sellNumber: '${params.sellNumber}',
+                updateTime: db.serverDate()
             }
         })
     `
