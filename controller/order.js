@@ -26,39 +26,43 @@ router.get('/orderList', async (ctx, next) => {
 router.post('/createOrder', async (ctx, next) => {
     const params = ctx.request.body || {}
     console.log('paramsparamsparams', params)
-    const getListRes = await callCloudFn(ctx, 'order', {
-        $url: 'createOrder',
-        createData: {
-            ...params,
-            orderType: 1,
-            cardImgs: params.fileIds,
-            fileList: params.fileList,
-            openid: params.openid
-        }
-    })
+    // const getListRes = await callCloudFn(ctx, 'order', {
+    //     $url: 'createOrder',
+    //     createData: {
+    //         ...params,
+    //         orderType: 1,
+    //         cardImgs: params.fileIds,
+    //         fileList: params.fileList,
+    //         openid: params.openid
+    //     }
+    // })
     const query = `
         db.collection('orderList').add({
             data: {
+                orderStatus: '1',
                 orderType: '1',
                 cardImgs: '${JSON.stringify(params.fileIds)}',
                 comment: '${params.comment}',
-                fileList: ${JSON.stringify(params.fileList)}',
-                singleDetailList: '${JSON.stringify(params.singleDetailList)}',
-                sellNumber: '${params.sellNumber}',
-                openid: '${params.openid}'
-                sellNumber: '${params.sellNumber}',
-                openid: '${params.openid}'
-                sellNumber: '${params.sellNumber}',
-                openid: '${params.openid}'
+                fileList: '${JSON.stringify(params.fileList)}',
+                openid: '${params.openid}',
+                createTime: db.serverDate(),
+                isPc: 'true',
+                nickName: '${params.nickName}',
+                avatarHttpsUrl: '${params.avatarHttpsUrl}',
+                phoneNumer: '${params.phoneNumer}',
+                deliveryCompany:  '${params.deliveryCompany}',
+                gradeCompany:  '${params.gradeCompany}',
+                gradeLevel:  '${params.gradeLevel}',
+                cardNumber:  '${params.cardNumber}',
             }
         })
     `
     const res = await callCloudDB(ctx, 'databaseadd', query)
     // console.log('pageRes', pageRes)
-    console.log('getListRes', getListRes)
+    // console.log('getListRes', getListRes)
     ctx.body = {
         code: 0,
-        data: (getListRes),
+        data: res,
         msg: '请求成功'
     }
 })
